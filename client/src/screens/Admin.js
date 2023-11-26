@@ -2,14 +2,12 @@ import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
-import Candidate from "../components/CandidateCard";
-import CandidateForm from "../components/CandidateForm";
+import CandidateDetails from "../components/CandidateDetails";
 import VotersForm from "../components/VotersForm";
 
 export default function Admin({ role, contract, web3, currentAccount }) {
@@ -129,7 +127,7 @@ export default function Admin({ role, contract, web3, currentAccount }) {
                     web3={web3}
                     currentAccount={currentAccount}
                   />
-                  <CandidateForm
+                  <CandidateDetails
                     contract={contract}
                     web3={web3}
                     currentAccount={currentAccount}

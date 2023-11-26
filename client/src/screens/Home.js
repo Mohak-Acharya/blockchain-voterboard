@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Vote from "./Vote";
 import Admin from "./Admin";
 import ElectionContract from "../contracts/Election.json";
-import getWeb3 from "../utils/getWeb3";
+import utilWeb3 from "../utils/utilWeb3";
 
 export default function Home() {
   const [role, setRole] = useState(2);
@@ -14,7 +14,7 @@ export default function Home() {
 
   const loadWeb3 = async () => {
     try {
-      const web3 = await getWeb3();
+      const web3 = await utilWeb3();
       const accounts = await web3.eth.getAccounts();
       const networkId = await web3.eth.net.getId();
       const deployedNetwork = ElectionContract.networks[networkId];

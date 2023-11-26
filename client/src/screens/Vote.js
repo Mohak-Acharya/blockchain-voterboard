@@ -2,21 +2,19 @@ import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 
-import Candidate from "../components/CandidateCard";
+import Candidate from "../components/Candidate";
 
 export default function Vote({ role, contract, web3, currentAccount }) {
   // const [loading, setLoading] = useState(true);
   const [candidates, setCandidates] = useState([]);
   const [vote, setVote] = useState(null);
   const [electionState, setElectionState] = useState(0);
-  const [open, setOpen] = useState(false);
+  //const [open, setOpen] = useState(false);
 
   const getCandidates = async () => {
     if (contract) {

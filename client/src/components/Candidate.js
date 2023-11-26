@@ -1,8 +1,4 @@
 import * as React from "react";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardActions from "@mui/material/CardActions";
-import Typography from "@mui/material/Typography";
 
 export default function Candidate({ id, name, voteCount }) {
   
