@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Stack } from "@mui/material";
 
-export default function CandidateForm({ contract, web3, currentAccount }) {
+export default function CandidateDetails({ contract, web3, currentAccount }) {
   const [name, setName] = useState("");
 
   const handleForm = async (event) => {
