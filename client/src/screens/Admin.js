@@ -1,27 +1,38 @@
-import { useEffect, useState } from "react";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
-import Candidate from "../components/CandidateCard";
-import CandidateForm from "../components/CandidateForm";
-import VotersForm from "../components/VotersForm";
+// React component for the admin dashboard, including election management and candidate/voter forms
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import Grid from '@mui/material/Grid';
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from '@mui/material';
+import { useEffect, useState } from 'react';
+
+import CandidateDetails from '../components/CandidateDetails';
+import VotersForm from '../components/VotersForm';
 
 export default function Admin({ role, contract, web3, currentAccount }) {
+  // State to manage election state, loading status, and candidate details
   const [electionState, setElectionState] = useState(0);
   const [loading, setLoading] = useState(true);
   const [candidates, setCandidates] = useState([]);
 
+  // State for the confirmation dialog
   const [open, setOpen] = useState(false);
 
+  // Function to fetch and update candidate details from the smart contract
   const getCandidates = async () => {
     if (contract) {
-      console.log(contract);
       const count = await contract.methods.candidatesCount().call();
       const temp = [];
       for (let i = 0; i < count; i++) {
@@ -30,10 +41,10 @@ export default function Admin({ role, contract, web3, currentAccount }) {
       }
       setCandidates(temp);
       setLoading(false);
-      console.log(temp);
     }
   };
 
+  // Function to fetch and update the election state from the smart contract
   const getElectionState = async () => {
     if (contract) {
       const state = await contract.methods.electionState().call();
@@ -41,11 +52,13 @@ export default function Admin({ role, contract, web3, currentAccount }) {
     }
   };
 
+  // UseEffect to fetch initial data on component mount and whenever the contract is updated
   useEffect(() => {
     getElectionState();
     getCandidates();
   }, [contract]);
 
+  // Handlers for the confirmation dialog
   const handleEnd = () => {
     setOpen(true);
   };
@@ -62,7 +75,7 @@ export default function Admin({ role, contract, web3, currentAccount }) {
           getElectionState();
         }
       } catch (error) {
-        console.error("Error:", error);
+        console.error('Error:', error);
       }
     } else if (electionState === 1) {
       try {
@@ -71,13 +84,14 @@ export default function Admin({ role, contract, web3, currentAccount }) {
           getElectionState();
         }
       } catch (error) {
-        console.error("Error:", error);
+        console.error('Error:', error);
       }
     }
 
     setOpen(false);
   };
 
+  // Render the admin dashboard based on the election state
   return (
     <Box>
       {loading ? (
@@ -95,6 +109,7 @@ export default function Admin({ role, contract, web3, currentAccount }) {
         <Box>
           <Grid container sx={{ mt: 0 }} spacing={4}>
             <Grid item xs={12}>
+              {/* Display the heading based on the election state */}
               <h1 align="center" variant="h6">
                 {electionState === 0 && 'New voter/candidate form'}
                 {electionState === 1 && 'Election Tracking'}
@@ -124,12 +139,13 @@ export default function Admin({ role, contract, web3, currentAccount }) {
                     alignItems: 'center',
                   }}
                 >
+                  {/* Render the voter and candidate forms */}
                   <VotersForm
                     contract={contract}
                     web3={web3}
                     currentAccount={currentAccount}
                   />
-                  <CandidateForm
+                  <CandidateDetails
                     contract={contract}
                     web3={web3}
                     currentAccount={currentAccount}
@@ -150,30 +166,38 @@ export default function Admin({ role, contract, web3, currentAccount }) {
                   justifyContent: 'center',
                 }}
               >
-                <TableContainer component={Paper} style={{width : 1000}}>
+                {/* Render the table for displaying candidate details */}
+                <TableContainer component={Paper} style={{ width: 1000 }}>
                   <Table>
                     <TableHead>
                       <TableRow>
-                        <TableCell><strong>Index</strong></TableCell>
-                        <TableCell><strong>Name</strong></TableCell>
-                        <TableCell><strong>Votes</strong></TableCell>
+                        <TableCell>
+                          <strong>Index</strong>
+                        </TableCell>
+                        <TableCell>
+                          <strong>Name</strong>
+                        </TableCell>
+                        <TableCell>
+                          <strong>Votes</strong>
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                {candidates &&
-                  candidates.map((candidate, index) => (
-                    <TableRow key={index}>
-                      <TableCell>{index + 1}</TableCell>
-                          <TableCell>{candidate.name}</TableCell>
-                          <TableCell>{candidate.votes}</TableCell>
-                    </TableRow>
-                  ))}
-                  </TableBody>
+                      {candidates &&
+                        candidates.map((candidate, index) => (
+                          <TableRow key={index}>
+                            <TableCell>{index + 1}</TableCell>
+                            <TableCell>{candidate.name}</TableCell>
+                            <TableCell>{candidate.votes}</TableCell>
+                          </TableRow>
+                        ))}
+                    </TableBody>
                   </Table>
-                  </TableContainer>
+                </TableContainer>
               </Grid>
             )}
 
+            {/* Render the button to start or end the election based on the state */}
             {electionState !== 2 && (
               <Grid item xs={12} sx={{ display: 'flex' }}>
                 <Button
@@ -188,6 +212,7 @@ export default function Admin({ role, contract, web3, currentAccount }) {
             )}
           </Grid>
 
+          {/* Render the confirmation dialog for starting or ending the election */}
           <Dialog
             open={open}
             onClose={handleClose}
@@ -207,7 +232,6 @@ export default function Admin({ role, contract, web3, currentAccount }) {
               </Button>
             </DialogActions>
           </Dialog>
-          
         </Box>
       )}
     </Box>

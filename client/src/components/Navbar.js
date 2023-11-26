@@ -1,49 +1,17 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import { useNavigate } from "react-router-dom";
-
-const settings = ["Logout"];
+// React component for the application navbar
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Container from '@mui/material/Container';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 
 const Navbar = () => {
-  const navigate = useNavigate();
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-  const handleSetting = (event) => {
-    switch (event.currentTarget.innerText) {
-      case "Profile":
-        console.log("Profile");
-        break;
-      case "Logout":
-        navigate("/");
-        console.log("Logout");
-        break;
-      default:
-        console.log("Default");
-        handleCloseUserMenu();
-    }
-  };
-
+  // Render the application navbar
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          {/* Application title with styling */}
           <Typography
             variant="h5"
             noWrap
@@ -52,11 +20,11 @@ const Navbar = () => {
             sx={{
               mr: 2,
               flexGrow: 1,
-              fontFamily: "Helvetica",
+              fontFamily: 'Helvetica',
               fontWeight: 700,
-              color: "inherit",
+              color: 'inherit',
               textAlign: 'center',
-              textDecoration: "none",
+              textDecoration: 'none',
             }}
           >
             Voterboard
